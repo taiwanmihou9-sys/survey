@@ -3,287 +3,1044 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>生活與個人核心價值觀綜合調查問卷</title>
+    <title>命運輪盤 - 多轉盤互動遊戲</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f0f2f5;
-            color: #333;
-            padding: 20px 10px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .survey-container {
-            max-width: 640px;
-            width: 100%;
-            background: #ffffff;
-            border-top: 10px solid #673ab7; /* 模仿 Google 表單經典紫 */
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
-        }
-        h1 {
-            font-size: 1.8rem;
-            margin-bottom: 10px;
-            color: #202124;
-        }
-        .subtitle {
-            color: #5f6368;
-            font-size: 0.9rem;
-            margin-bottom: 25px;
-            border-bottom: 1px solid #dadce0;
-            padding-bottom: 15px;
-        }
-        .question-box {
-            background: #fff;
-            border: 1px solid #dadce0;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-        }
-        .question-title {
-            font-size: 1.05rem;
-            font-weight: 500;
-            margin-bottom: 15px;
-            color: #202124;
-        }
-        .question-title::after {
-            content: " *";
-            color: #d93025;
-        }
-        .options-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        .option-label {
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            font-size: 0.95rem;
-            color: #3c4043;
-        }
-        input[type="radio"] {
-            margin-right: 12px;
-            width: 20px;
-            height: 20px;
-            accent-color: #673ab7;
-            cursor: pointer;
-        }
-        .submit-btn {
-            background-color: #673ab7;
-            color: white;
-            padding: 10px 24px;
-            border: none;
-            border-radius: 4px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            cursor: pointer;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-            transition: background-color 0.2s;
-        }
-        .submit-btn:hover {
-            background-color: #512da8;
-        }
-        
-        /* 惡搞彈窗 */
-        .gay-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: #000000;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            flex-direction: column;
-        }
-        .gay-text {
-            font-size: 8rem;
-            font-weight: 900;
-            color: #ff0055;
-            letter-spacing: 5px;
-            text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055;
-            animation: shake 0.1s infinite, rainbow 2s infinite linear;
-        }
-        .retry-btn {
-            margin-top: 40px;
-            padding: 10px 20px;
-            background: #fff;
-            color: #000;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
+        :root {
+            --bg: #1a1a2e;
+            --card-bg: #16213e;
+            --text: #e0e0e0;
+            --accent: #e2b04a;
+            --accent2: #c7923e;
+            --btn-bg: #0f3460;
+            --btn-hover: #1a508b;
+            --highlight: #ff6b6b;
+            --gold: #f0c060;
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            --border: rgba(255, 255, 255, 0.1);
         }
 
-        /* 震動與彩虹特效 */
-        @keyframes shake {
-            0% { transform: translate(2px, 1px) rotate(0deg); }
-            10% { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(0px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(2px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(2px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        @keyframes rainbow {
-            0% { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
+
+        body {
+            background: var(--bg);
+            background-image:
+                radial-gradient(ellipse at 30% 20%, rgba(226, 176, 74, 0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 70% 60%, rgba(100, 140, 200, 0.05) 0%, transparent 60%),
+                radial-gradient(ellipse at 50% 80%, rgba(180, 120, 60, 0.04) 0%, transparent 50%);
+            font-family: 'Segoe UI', 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: var(--text);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        .main-container {
+            width: 100%;
+            max-width: 1400px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 30px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .header h1 {
+            font-size: 2.4em;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            background: linear-gradient(180deg, #f5d78c 0%, #c7923e 50%, #a07030 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            margin-bottom: 4px;
+        }
+
+        .header .subtitle {
+            font-size: 0.95em;
+            color: #a0a0b8;
+            letter-spacing: 0.08em;
+        }
+
+        /* 轉盤網格 */
+        .wheels-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 28px;
+            width: 100%;
+        }
+
+        /* 轉盤1 - 大轉盤 */
+        .wheel-card.large {
+            flex: 0 0 auto;
+            width: 100%;
+            max-width: 440px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wheel-card.large .wheel-canvas-wrap {
+            width: 380px;
+            height: 380px;
+        }
+
+        .wheel-card.large .wheel-canvas-wrap canvas {
+            width: 380px;
+            height: 380px;
+        }
+
+        /* 小型轉盤卡片 */
+        .wheel-card.small {
+            flex: 0 0 auto;
+            width: 260px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .wheel-card.small .wheel-canvas-wrap {
+            width: 250px;
+            height: 250px;
+        }
+
+        .wheel-card.small .wheel-canvas-wrap canvas {
+            width: 250px;
+            height: 250px;
+        }
+
+        .wheel-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 20px 18px 18px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            transition: all 0.35s ease;
+            position: relative;
+            overflow: visible;
+        }
+
+        .wheel-card:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: translateY(-2px);
+        }
+
+        .wheel-card.triggered-highlight {
+            animation: cardGlow 0.7s ease-in-out 3;
+            border-color: var(--highlight) !important;
+            box-shadow: 0 0 30px rgba(255, 107, 107, 0.5) !important;
+        }
+
+        @keyframes cardGlow {
+            0%,
+            100% {
+                box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(255, 107, 107, 0.7), 0 8px 32px rgba(0, 0, 0, 0.4);
+            }
+        }
+
+        .wheel-label {
+            font-weight: 700;
+            font-size: 1.05em;
+            letter-spacing: 0.05em;
+            color: #c8c8d8;
+            margin-bottom: 10px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .wheel-label .badge {
+            display: inline-block;
+            background: var(--accent);
+            color: #1a1a2e;
+            font-size: 0.75em;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.04em;
+        }
+
+        .wheel-label .badge.special {
+            background: #ff6b6b;
+            animation: pulseBadge 1.2s ease-in-out infinite;
+        }
+
+        @keyframes pulseBadge {
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.12);
+            }
+        }
+
+        .wheel-canvas-wrap {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: default;
+        }
+
+        .wheel-canvas-wrap canvas {
+            display: block;
+            filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
+            transition: filter 0.3s;
+        }
+
+        .wheel-card.spinning .wheel-canvas-wrap canvas {
+            filter: drop-shadow(0 6px 20px rgba(226, 176, 74, 0.55));
+        }
+
+        .result-display {
+            margin-top: 10px;
+            font-weight: 600;
+            font-size: 0.95em;
+            min-height: 28px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #b0b0c0;
+            letter-spacing: 0.03em;
+            transition: all 0.3s;
+        }
+
+        .result-display .result-value {
+            font-weight: 700;
+            font-size: 1.15em;
+            color: var(--gold);
+            background: rgba(240, 192, 96, 0.1);
+            padding: 4px 14px;
+            border-radius: 16px;
+            border: 1px solid rgba(240, 192, 96, 0.25);
+            animation: resultPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes resultPop {
+            0% {
+                transform: scale(0.7);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .result-display .auto-trigger-note {
+            font-size: 0.8em;
+            color: #ff6b6b;
+            font-weight: 600;
+            animation: blinkText 0.8s ease-in-out 3;
+        }
+
+        @keyframes blinkText {
+            0%,
+            100% {
+                opacity: 0.3;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .btn-spin {
+            margin-top: 10px;
+            padding: 10px 28px;
+            font-size: 0.95em;
+            font-weight: 700;
+            letter-spacing: 0.06em;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            background: linear-gradient(135deg, #e2b04a 0%, #c7923e 50%, #a07030 100%);
+            color: #1a1a2e;
+            box-shadow: 0 4px 16px rgba(200, 150, 60, 0.35);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-spin:hover:not(:disabled) {
+            box-shadow: 0 6px 24px rgba(220, 170, 70, 0.55);
+            transform: translateY(-2px);
+        }
+
+        .btn-spin:active:not(:disabled) {
+            transform: scale(0.95);
+            box-shadow: 0 2px 8px rgba(200, 150, 60, 0.3);
+            transition: all 0.1s ease;
+        }
+
+        .btn-spin:disabled {
+            background: linear-gradient(135deg, #5a5a6e 0%, #3a3a4e 100%);
+            color: #888;
+            cursor: not-allowed;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+            animation: none;
+        }
+
+        .btn-spin.spinning-btn {
+            animation: btnShimmer 0.8s ease-in-out infinite;
+        }
+
+        @keyframes btnShimmer {
+            0%,
+            100% {
+                opacity: 0.7;
+            }
+            50% {
+                opacity: 0.45;
+            }
+        }
+
+        /* 分隔線 */
+        .divider {
+            width: 100%;
+            max-width: 1200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+            margin: 5px 0;
+        }
+
+        /* 底部提示 */
+        .footer-note {
+            text-align: center;
+            font-size: 0.8em;
+            color: #6a6a7e;
+            letter-spacing: 0.04em;
+            margin-top: 5px;
+        }
+
+        .footer-note span {
+            color: #ff6b6b;
+            font-weight: 600;
+        }
+
+        /* 響應式 */
+        @media (max-width: 1200px) {
+            .wheels-grid {
+                gap: 20px;
+            }
+            .wheel-card.large {
+                max-width: 380px;
+            }
+            .wheel-card.large .wheel-canvas-wrap {
+                width: 320px;
+                height: 320px;
+            }
+            .wheel-card.large .wheel-canvas-wrap canvas {
+                width: 320px;
+                height: 320px;
+            }
+            .wheel-card.small {
+                width: 220px;
+            }
+            .wheel-card.small .wheel-canvas-wrap {
+                width: 200px;
+                height: 200px;
+            }
+            .wheel-card.small .wheel-canvas-wrap canvas {
+                width: 200px;
+                height: 200px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6em;
+            }
+            .wheels-grid {
+                gap: 16px;
+            }
+            .wheel-card.large {
+                max-width: 100%;
+                width: 100%;
+            }
+            .wheel-card.large .wheel-canvas-wrap {
+                width: 280px;
+                height: 280px;
+            }
+            .wheel-card.large .wheel-canvas-wrap canvas {
+                width: 280px;
+                height: 280px;
+            }
+            .wheel-card.small {
+                width: 160px;
+                padding: 14px 10px 12px;
+            }
+            .wheel-card.small .wheel-canvas-wrap {
+                width: 140px;
+                height: 140px;
+            }
+            .wheel-card.small .wheel-canvas-wrap canvas {
+                width: 140px;
+                height: 140px;
+            }
+            .btn-spin {
+                padding: 8px 20px;
+                font-size: 0.8em;
+            }
+            .wheel-label {
+                font-size: 0.85em;
+            }
+            .result-display {
+                font-size: 0.78em;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .wheel-card.small {
+                width: 140px;
+                padding: 10px 6px 8px;
+            }
+            .wheel-card.small .wheel-canvas-wrap {
+                width: 115px;
+                height: 115px;
+            }
+            .wheel-card.small .wheel-canvas-wrap canvas {
+                width: 115px;
+                height: 115px;
+            }
+            .wheel-card.large .wheel-canvas-wrap {
+                width: 230px;
+                height: 230px;
+            }
+            .wheel-card.large .wheel-canvas-wrap canvas {
+                width: 230px;
+                height: 230px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="survey-container">
-        <h1>📋 調查問卷</h1>
-        <div class="subtitle">請根據您的真實情況填寫以下題目。</div>
+    <div class="main-container">
+        <!-- 標題 -->
+        <div class="header">
+            <h1>🎰 命運輪盤</h1>
+            <p class="subtitle">點擊按鈕轉動輪盤 · 命運由你掌控</p>
+        </div>
 
-        <form id="surveyForm" onsubmit="triggerPrank(event)">
-            <!-- Q1 -->
-            <div class="question-box">
-                <div class="question-title">1. 請問你的性別？</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q1" value="男生" required> 男生</label>
-                    <label class="option-label"><input type="radio" name="q1" value="男娘"> 男娘</label>
-                    <label class="option-label"><input type="radio" name="q1" value="Gay"> Gay</label>
-                    <label class="option-label"><input type="radio" name="q1" value="女生"> 女生</label>
+        <!-- 轉盤區域 -->
+        <div class="wheels-grid" id="wheelsGrid">
+            <!-- 轉盤1：角色名字（大轉盤） -->
+            <div class="wheel-card large" id="wheelCard1" data-wheel="1">
+                <div class="wheel-label">🎯 轉盤一 <span class="badge">角色</span></div>
+                <div class="wheel-canvas-wrap">
+                    <canvas id="wheelCanvas1" width="760" height="760"></canvas>
                 </div>
+                <div class="result-display" id="result1">結果：<span class="result-value">—</span></div>
+                <button class="btn-spin" id="btnSpin1" onclick="spinWheel(1)">🎲 轉動角色</button>
             </div>
 
-            <!-- Q2 -->
-            <div class="question-box">
-                <div class="question-title">2. 你有另一半嗎？</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q2" value="有" required> 有</label>
-                    <label class="option-label"><input type="radio" name="q2" value="沒有"> 沒有</label>
+            <!-- 轉盤2：1~3 -->
+            <div class="wheel-card small" id="wheelCard2" data-wheel="2">
+                <div class="wheel-label">🔢 轉盤二 <span class="badge special">1~3</span></div>
+                <div class="wheel-canvas-wrap">
+                    <canvas id="wheelCanvas2" width="500" height="500"></canvas>
                 </div>
+                <div class="result-display" id="result2">結果：<span class="result-value">—</span></div>
+                <button class="btn-spin" id="btnSpin2" onclick="spinWheel(2)">🎲 轉動</button>
             </div>
 
-            <!-- Q3 -->
-            <div class="question-box">
-                <div class="question-title">3. 你家人知道你是gay嗎？</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q3" value="知道" required> 知道</label>
-                    <label class="option-label"><input type="radio" name="q3" value="不知道"> 不知道</label>
+            <!-- 轉盤4：2500 / 4000 / 6000 -->
+            <div class="wheel-card small" id="wheelCard4" data-wheel="4">
+                <div class="wheel-label">💰 轉盤四 <span class="badge">積分</span></div>
+                <div class="wheel-canvas-wrap">
+                    <canvas id="wheelCanvas4" width="500" height="500"></canvas>
                 </div>
+                <div class="result-display" id="result4">結果：<span class="result-value">—</span></div>
+                <button class="btn-spin" id="btnSpin4" onclick="spinWheel(4)">🎲 轉動</button>
             </div>
 
-            <!-- Q4 -->
-            <div class="question-box">
-                <div class="question-title">4. 你和gay同一個性別所以你是gay吧？</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q4" value="是" required> 是</label>
-                    <label class="option-label"><input type="radio" name="q4" value="我是gay我不知道"> 我是gay我不知道</label>
+            <!-- 轉盤5：換 / 不換 -->
+            <div class="wheel-card small" id="wheelCard5" data-wheel="5">
+                <div class="wheel-label">🔄 轉盤五 <span class="badge">決策</span></div>
+                <div class="wheel-canvas-wrap">
+                    <canvas id="wheelCanvas5" width="500" height="500"></canvas>
                 </div>
+                <div class="result-display" id="result5">結果：<span class="result-value">—</span></div>
+                <button class="btn-spin" id="btnSpin5" onclick="spinWheel(5)">🎲 轉動</button>
             </div>
 
-            <!-- Q5 -->
-            <div class="question-box">
-                <div class="question-title">5. 請問你對第三次世界大戰的看法是什麼</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q5" value="我覺得非常棒，所以我是gay" required> 我覺得非常棒，所以我是gay</label>
-                    <label class="option-label"><input type="radio" name="q5" value="我覺得不太好，因為我是gay"> 我覺得不太好，因為我是gay</label>
-                    <label class="option-label"><input type="radio" name="q5" value="我不知道，因為我是gay"> 我不知道，因為我是gay</label>
+            <!-- 轉盤6：1~4 -->
+            <div class="wheel-card small" id="wheelCard6" data-wheel="6">
+                <div class="wheel-label">🎯 轉盤六 <span class="badge">1~4</span></div>
+                <div class="wheel-canvas-wrap">
+                    <canvas id="wheelCanvas6" width="500" height="500"></canvas>
                 </div>
+                <div class="result-display" id="result6">結果：<span class="result-value">—</span></div>
+                <button class="btn-spin" id="btnSpin6" onclick="spinWheel(6)">🎲 轉動</button>
             </div>
+        </div>
 
-            <!-- Q6 -->
-            <div class="question-box">
-                <div class="question-title">6. 你對納粹有什麼看法</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q6" value="我喜歡他，因為我是M我喜歡被他虐待" required> 我喜歡他，因為我是M我喜歡被他虐待</label>
-                    <label class="option-label"><input type="radio" name="q6" value="不知道，因為我是gay"> 不知道，因為我是gay</label>
-                </div>
-            </div>
-
-            <!-- Q7 -->
-            <div class="question-box">
-                <div class="question-title">7. 你對男娘有什麼看法</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q7" value="我是男娘，我覺得非常棒" required> 我是男娘，我覺得非常棒</label>
-                    <label class="option-label"><input type="radio" name="q7" value="我覺得我非常棒，我是女生"> 我覺得我非常棒，我是女生</label>
-                    <label class="option-label"><input type="radio" name="q7" value="我是gay，我也覺得很好"> 我是gay，我也覺得很好</label>
-                    <label class="option-label"><input type="radio" name="q7" value="不知道，因為我是gay"> 不知道，因為我是gay</label>
-                </div>
-            </div>
-
-            <!-- Q8 -->
-            <div class="question-box">
-                <div class="question-title">8. 給你10萬你會做什麼</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q8" value="去泰國變性" required> 去泰國變性</label>
-                    <label class="option-label"><input type="radio" name="q8" value="開開心心的當gay"> 開開心心的當gay</label>
-                </div>
-            </div>
-
-            <!-- Q9 -->
-            <div class="question-box">
-                <div class="question-title">9. 請回答！</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q9" value="我是gay" required> 我是gay</label>
-                    <label class="option-label"><input type="radio" name="q9" value="我不想選因為我是男娘"> 我不想選因為我是男娘</label>
-                </div>
-            </div>
-
-            <!-- Q10 -->
-            <div class="question-box">
-                <div class="question-title">10. 你今天開心嗎？</div>
-                <div class="options-group">
-                    <label class="option-label"><input type="radio" name="q10" value="我很開心因為我是女的" required> 我很開心因為我是女的</label>
-                    <label class="option-label"><input type="radio" name="q10" value="我很開心因為我是男娘"> 我很開心因為我是男娘</label>
-                    <label class="option-label"><input type="radio" name="q10" value="我不開心因為我是gay"> 我不開心因為我是gay</label>
-                </div>
-            </div>
-
-            <button type="submit" class="submit-btn">提交</button>
-        </form>
-    </div>
-
-    <!-- 惡搞全螢幕畫面 -->
-    <div class="gay-overlay" id="gayOverlay">
-        <div class="gay-text">GAY !</div>
-        <button class="retry-btn" onclick="closePrank()">可惡，被整了</button>
+        <div class="divider"></div>
+        <div class="footer-note">
+            💡 提示：<span>轉盤二</span>若轉到 <span>「2」</span>，將自動觸發 <span>轉盤六</span> 開始旋轉！
+        </div>
     </div>
 
     <script>
-        function triggerPrank(event) {
-            event.preventDefault(); // 阻止表單真的送出重整
+        (function() {
+            // ============ 轉盤配置 ============
+            const wheelConfigs = {
+                1: {
+                    canvasId: 'wheelCanvas1',
+                    cardId: 'wheelCard1',
+                    btnId: 'btnSpin1',
+                    resultId: 'result1',
+                    options: ['紅狼', '威龍', '無名', '疾風', '蠱', '蜂醫', '蝶', '牧羊人', '烏魯魯', '深藍', '比特', '露娜', '駭爪',
+                        '銀翼', '迴響'
+                    ],
+                    radius: 320,
+                    centerX: 380,
+                    centerY: 380,
+                    fontSize: 15,
+                    isLarge: true,
+                },
+                2: {
+                    canvasId: 'wheelCanvas2',
+                    cardId: 'wheelCard2',
+                    btnId: 'btnSpin2',
+                    resultId: 'result2',
+                    options: ['1', '2', '3'],
+                    radius: 210,
+                    centerX: 250,
+                    centerY: 250,
+                    fontSize: 32,
+                    isLarge: false,
+                    triggerOnResult: '2',
+                    triggerTarget: 6,
+                },
+                4: {
+                    canvasId: 'wheelCanvas4',
+                    cardId: 'wheelCard4',
+                    btnId: 'btnSpin4',
+                    resultId: 'result4',
+                    options: ['2500', '4000', '6000'],
+                    radius: 210,
+                    centerX: 250,
+                    centerY: 250,
+                    fontSize: 26,
+                    isLarge: false,
+                },
+                5: {
+                    canvasId: 'wheelCanvas5',
+                    cardId: 'wheelCard5',
+                    btnId: 'btnSpin5',
+                    resultId: 'result5',
+                    options: ['換', '不換'],
+                    radius: 210,
+                    centerX: 250,
+                    centerY: 250,
+                    fontSize: 34,
+                    isLarge: false,
+                },
+                6: {
+                    canvasId: 'wheelCanvas6',
+                    cardId: 'wheelCard6',
+                    btnId: 'btnSpin6',
+                    resultId: 'result6',
+                    options: ['1', '2', '3', '4'],
+                    radius: 210,
+                    centerX: 250,
+                    centerY: 250,
+                    fontSize: 30,
+                    isLarge: false,
+                },
+            };
 
-            // 1. 顯示滿版全黑、彩色閃爍字體的 GAY
-            document.getElementById('gayOverlay').style.display = 'flex';
-
-            // 2. 觸發手機/電腦語音讀出 "GAY"
-            if ('speechSynthesis' in window) {
-                // 英文發音
-                const utterance = new SpeechSynthesisUtterance("GAY");
-                utterance.lang = "en-US";
-                utterance.pitch = 1.2; // 音調稍微高亢一點
-                utterance.rate = 1.0;  // 正常速度
-                
-                // 連續大喊三聲增加震撼感
-                window.speechSynthesis.speak(utterance);
-                window.speechSynthesis.speak(utterance);
-                window.speechSynthesis.speak(utterance);
+            // ============ 顏色方案 ============
+            function getColorPalette(count) {
+                if (count === 15) {
+                    // 15種顏色 - HSL均勻分佈
+                    const colors = [];
+                    for (let i = 0; i < 15; i++) {
+                        const hue = (i * 24) % 360;
+                        colors.push({
+                            fill: `hsl(${hue}, 62%, 52%)`,
+                            stroke: `hsl(${hue}, 70%, 38%)`,
+                            text: '#ffffff',
+                        });
+                    }
+                    return colors;
+                }
+                if (count === 3) {
+                    return [
+                        { fill: '#e74c3c', stroke: '#c0392b', text: '#ffffff' },
+                        { fill: '#f39c12', stroke: '#d68910', text: '#ffffff' },
+                        { fill: '#27ae60', stroke: '#1e8449', text: '#ffffff' },
+                    ];
+                }
+                if (count === 2) {
+                    return [
+                        { fill: '#1abc9c', stroke: '#16a085', text: '#ffffff' },
+                        { fill: '#e91e63', stroke: '#c2185b', text: '#ffffff' },
+                    ];
+                }
+                if (count === 4) {
+                    return [
+                        { fill: '#3498db', stroke: '#2980b9', text: '#ffffff' },
+                        { fill: '#e67e22', stroke: '#d35400', text: '#ffffff' },
+                        { fill: '#9b59b6', stroke: '#7d3c98', text: '#ffffff' },
+                        { fill: '#2ecc71', stroke: '#27ae60', text: '#ffffff' },
+                    ];
+                }
+                // 默認
+                const colors = [];
+                for (let i = 0; i < count; i++) {
+                    const hue = (i * 360) / count;
+                    colors.push({
+                        fill: `hsl(${hue}, 60%, 50%)`,
+                        stroke: `hsl(${hue}, 65%, 36%)`,
+                        text: '#ffffff',
+                    });
+                }
+                return colors;
             }
-        }
 
-        function closePrank() {
-            document.getElementById('gayOverlay').style.display = 'none';
-            document.getElementById('surveyForm').reset();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+            // ============ 轉盤狀態管理 ============
+            const wheelStates = {};
+
+            // 初始化每個轉盤的狀態
+            Object.keys(wheelConfigs).forEach(key => {
+                const id = parseInt(key);
+                const config = wheelConfigs[id];
+                wheelStates[id] = {
+                    rotationAngle: Math.random() * Math.PI * 2, // 隨機初始角度
+                    angularVelocity: 0,
+                    isSpinning: false,
+                    lastResult: null,
+                    animationId: null,
+                    config: config,
+                    colors: getColorPalette(config.options.length),
+                };
+            });
+
+            // ============ 繪製轉盤 ============
+            function drawWheel(wheelId) {
+                const state = wheelStates[wheelId];
+                const config = state.config;
+                const canvas = document.getElementById(config.canvasId);
+                if (!canvas) return;
+                const ctx = canvas.getContext('2d');
+                const cx = config.centerX;
+                const cy = config.centerY;
+                const radius = config.radius;
+                const options = config.options;
+                const n = options.length;
+                const colors = state.colors;
+                const rotationAngle = state.rotationAngle;
+
+                // 清除畫布
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                // 繪製轉盤外圈陰影
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius + 14, 0, Math.PI * 2);
+                const shadowGrad = ctx.createRadialGradient(cx, cy, radius - 5, cx, cy, radius + 16);
+                shadowGrad.addColorStop(0, 'rgba(0,0,0,0)');
+                shadowGrad.addColorStop(0.85, 'rgba(0,0,0,0.5)');
+                shadowGrad.addColorStop(1, 'rgba(0,0,0,0.7)');
+                ctx.fillStyle = shadowGrad;
+                ctx.fill();
+                ctx.restore();
+
+                // 繪製扇形
+                const sliceAngle = (Math.PI * 2) / n;
+                for (let i = 0; i < n; i++) {
+                    const startAngle = i * sliceAngle + rotationAngle;
+                    const endAngle = (i + 1) * sliceAngle + rotationAngle;
+
+                    // 扇形填充
+                    ctx.save();
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.arc(cx, cy, radius, startAngle, endAngle);
+                    ctx.closePath();
+                    ctx.fillStyle = colors[i].fill;
+                    ctx.fill();
+                    ctx.strokeStyle = colors[i].stroke;
+                    ctx.lineWidth = 2.5;
+                    ctx.stroke();
+                    ctx.restore();
+
+                    // 扇形文字
+                    const midAngle = startAngle + sliceAngle / 2;
+                    const textRadius = radius * 0.64;
+                    const tx = cx + Math.cos(midAngle) * textRadius;
+                    const ty = cy + Math.sin(midAngle) * textRadius;
+
+                    ctx.save();
+                    ctx.translate(tx, ty);
+                    // 文字旋轉，讓文字沿徑向可讀
+                    let textRotation = midAngle;
+                    // 如果文字在左半部分，翻轉180度保持可讀
+                    const normalizedMid = ((midAngle % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+                    if (normalizedMid > Math.PI / 2 && normalizedMid < Math.PI * 3 / 2) {
+                        textRotation += Math.PI;
+                    }
+                    ctx.rotate(textRotation);
+                    ctx.fillStyle = colors[i].text;
+                    ctx.font = `bold ${config.fontSize}px "PingFang TC", "Microsoft JhengHei", "Noto Sans TC", "Segoe UI", sans-serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    // 文字陰影增強可讀性
+                    ctx.shadowColor = 'rgba(0,0,0,0.5)';
+                    ctx.shadowBlur = 3;
+                    ctx.fillText(options[i], 0, 0);
+                    ctx.shadowBlur = 0;
+                    ctx.restore();
+                }
+
+                // 繪製內圈裝飾環
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius * 0.22, 0, Math.PI * 2);
+                const innerGrad = ctx.createRadialGradient(cx, cy, radius * 0.05, cx, cy, radius * 0.22);
+                innerGrad.addColorStop(0, '#f5f0e8');
+                innerGrad.addColorStop(0.5, '#d4c8b0');
+                innerGrad.addColorStop(1, '#8a7a60');
+                ctx.fillStyle = innerGrad;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(0,0,0,0.4)';
+                ctx.lineWidth = 3;
+                ctx.stroke();
+                ctx.restore();
+
+                // 中心小圓
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius * 0.08, 0, Math.PI * 2);
+                const centerGrad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius * 0.08);
+                centerGrad.addColorStop(0, '#ffffff');
+                centerGrad.addColorStop(1, '#c0b090');
+                ctx.fillStyle = centerGrad;
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+
+                // 繪製指針（固定在12點方向）
+                drawPointer(ctx, cx, cy, radius);
+
+                // 外圈邊框
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius + 3, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+                ctx.lineWidth = 4;
+                ctx.stroke();
+                ctx.restore();
+
+                // 外圈金色環
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius + 1, 0, Math.PI * 2);
+                ctx.strokeStyle = 'rgba(200,160,80,0.5)';
+                ctx.lineWidth = 2;
+                ctx.setLineDash([8, 6]);
+                ctx.stroke();
+                ctx.setLineDash([]);
+                ctx.restore();
+            }
+
+            function drawPointer(ctx, cx, cy, radius) {
+                const pointerLength = radius * 0.2;
+                const pointerWidth = radius * 0.07;
+                const tipY = cy - radius - 2; // 指針尖端在轉盤頂部外緣
+                const baseY = tipY + pointerLength;
+
+                ctx.save();
+                // 指針三角形
+                ctx.beginPath();
+                ctx.moveTo(cx, tipY);
+                ctx.lineTo(cx - pointerWidth, baseY);
+                ctx.lineTo(cx + pointerWidth, baseY);
+                ctx.closePath();
+                const pointerGrad = ctx.createLinearGradient(cx, tipY, cx, baseY);
+                pointerGrad.addColorStop(0, '#ff4444');
+                pointerGrad.addColorStop(0.5, '#e83030');
+                pointerGrad.addColorStop(1, '#a01010');
+                ctx.fillStyle = pointerGrad;
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+                // 指針光澤
+                ctx.beginPath();
+                ctx.moveTo(cx, tipY + 4);
+                ctx.lineTo(cx - pointerWidth * 0.5, baseY - 4);
+                ctx.lineTo(cx, baseY - 6);
+                ctx.closePath();
+                ctx.fillStyle = 'rgba(255,255,255,0.3)';
+                ctx.fill();
+                ctx.restore();
+
+                // 指針底座圓點
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(cx, baseY + 6, pointerWidth * 0.7, 0, Math.PI * 2);
+                ctx.fillStyle = '#d02020';
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.restore();
+            }
+
+            // ============ 初始繪製所有轉盤 ============
+            function drawAllWheels() {
+                Object.keys(wheelConfigs).forEach(key => {
+                    drawWheel(parseInt(key));
+                });
+            }
+
+            // ============ 獲取指針指向的結果 ============
+            function getResult(wheelId) {
+                const state = wheelStates[wheelId];
+                const config = state.config;
+                const n = config.options.length;
+                const sliceAngle = (Math.PI * 2) / n;
+                // 指針在12點方向 = -π/2 (即 3π/2)
+                const pointerAngle = -Math.PI / 2;
+                // 指針在轉盤坐標系中的角度
+                const angleInWheel = pointerAngle - state.rotationAngle;
+                // 規範化到 [0, 2π)
+                const normalized = ((angleInWheel % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+                const index = Math.floor(normalized / sliceAngle);
+                return {
+                    index: index,
+                    value: config.options[index],
+                };
+            }
+
+            // ============ 旋轉動畫 ============
+            function spinWheel(wheelId, isAutoTrigger = false) {
+                const state = wheelStates[wheelId];
+                const config = state.config;
+
+                // 如果正在旋轉，忽略
+                if (state.isSpinning) return;
+
+                state.isSpinning = true;
+                const cardEl = document.getElementById(config.cardId);
+                const btnEl = document.getElementById(config.btnId);
+                const resultEl = document.getElementById(config.resultId);
+
+                if (cardEl) cardEl.classList.add('spinning');
+                if (btnEl) {
+                    btnEl.disabled = true;
+                    btnEl.classList.add('spinning-btn');
+                    btnEl.textContent = '⏳ 旋轉中...';
+                }
+                if (resultEl) {
+                    resultEl.querySelector('.result-value').textContent = '...';
+                    resultEl.querySelector('.result-value').style.color = '#b0b0c0';
+                    // 清除自動觸發提示
+                    const note = resultEl.querySelector('.auto-trigger-note');
+                    if (note) note.remove();
+                }
+
+                // 隨機初始角速度
+                const minSpeed = 0.28;
+                const maxSpeed = 0.55;
+                const initialSpeed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+                state.angularVelocity = initialSpeed;
+                const damping = 0.9865;
+                const stopThreshold = 0.0004;
+
+                function animate() {
+                    if (!state.isSpinning) return;
+
+                    state.rotationAngle += state.angularVelocity;
+                    state.rotationAngle = state.rotationAngle % (Math.PI * 2);
+                    state.angularVelocity *= damping;
+
+                    drawWheel(wheelId);
+
+                    if (state.angularVelocity < stopThreshold && state.angularVelocity > 0) {
+                        // 停止旋轉
+                        state.angularVelocity = 0;
+                        state.isSpinning = false;
+                        state.animationId = null;
+
+                        // 計算結果
+                        const result = getResult(wheelId);
+                        state.lastResult = result;
+
+                        // 更新UI
+                        if (cardEl) cardEl.classList.remove('spinning');
+                        if (btnEl) {
+                            btnEl.disabled = false;
+                            btnEl.classList.remove('spinning-btn');
+                            btnEl.textContent = '🎲 轉動';
+                            if (config.isLarge) btnEl.textContent = '🎲 轉動角色';
+                        }
+                        if (resultEl) {
+                            const valSpan = resultEl.querySelector('.result-value');
+                            valSpan.textContent = result.value;
+                            valSpan.style.color = '#f0c060';
+                            // 重新觸發動畫
+                            valSpan.style.animation = 'none';
+                            void valSpan.offsetWidth;
+                            valSpan.style.animation = 'resultPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+                        }
+
+                        // 檢查轉盤2的特殊觸發邏輯
+                        if (config.triggerOnResult && result.value === config.triggerOnResult && config
+                            .triggerTarget) {
+                            handleAutoTrigger(wheelId, result.value, config.triggerTarget);
+                        }
+
+                        // 如果是自動觸發且轉盤6，在結果顯示提示
+                        if (isAutoTrigger && wheelId === 6 && resultEl) {
+                            const note = document.createElement('span');
+                            note.className = 'auto-trigger-note';
+                            note.textContent = '(由轉盤2觸發)';
+                            resultEl.appendChild(note);
+                        }
+
+                        return;
+                    }
+
+                    state.animationId = requestAnimationFrame(animate);
+                }
+
+                state.animationId = requestAnimationFrame(animate);
+            }
+
+            // ============ 自動觸發處理 ============
+            function handleAutoTrigger(sourceWheelId, sourceResult, targetWheelId) {
+                const targetState = wheelStates[targetWheelId];
+                const targetConfig = targetState.config;
+
+                // 如果目標轉盤正在旋轉，跳過
+                if (targetState.isSpinning) return;
+
+                // 高亮目標轉盤卡片
+                const targetCard = document.getElementById(targetConfig.cardId);
+                if (targetCard) {
+                    targetCard.classList.add('triggered-highlight');
+                    setTimeout(() => {
+                        targetCard.classList.remove('triggered-highlight');
+                    }, 2100);
+                }
+
+                // 在目標轉盤結果區顯示提示
+                const targetResultEl = document.getElementById(targetConfig.resultId);
+                if (targetResultEl) {
+                    const note = document.createElement('span');
+                    note.className = 'auto-trigger-note';
+                    note.textContent = '即將自動旋轉...';
+                    targetResultEl.appendChild(note);
+                }
+
+                // 延遲後自動旋轉
+                const delay = 900;
+                setTimeout(() => {
+                    // 清除提示
+                    if (targetResultEl) {
+                        const note = targetResultEl.querySelector('.auto-trigger-note');
+                        if (note && note.textContent === '即將自動旋轉...') note.remove();
+                    }
+                    // 觸發旋轉（標記為自動觸發）
+                    spinWheel(targetWheelId, true);
+                }, delay);
+
+                // 在來源轉盤結果區也顯示提示
+                const sourceResultEl = document.getElementById(wheelConfigs[sourceWheelId].resultId);
+                if (sourceResultEl) {
+                    const existingNote = sourceResultEl.querySelector('.auto-trigger-note');
+                    if (!existingNote) {
+                        const note = document.createElement('span');
+                        note.className = 'auto-trigger-note';
+                        note.textContent = '→ 觸發轉盤六！';
+                        sourceResultEl.appendChild(note);
+                        setTimeout(() => {
+                            if (note.parentNode) note.remove();
+                        }, 3500);
+                    }
+                }
+            }
+
+            // ============ 全域點擊轉盤本身也可旋轉 ============
+            document.addEventListener('DOMContentLoaded', () => {
+                drawAllWheels();
+
+                // 為每個轉盤的Canvas添加點擊事件（可選：點擊轉盤本身觸發旋轉）
+                Object.keys(wheelConfigs).forEach(key => {
+                    const id = parseInt(key);
+                    const config = wheelConfigs[id];
+                    const canvas = document.getElementById(config.canvasId);
+                    if (canvas) {
+                        canvas.style.cursor = 'pointer';
+                        canvas.addEventListener('click', (e) => {
+                            const state = wheelStates[id];
+                            if (!state.isSpinning) {
+                                spinWheel(id);
+                            }
+                        });
+                        // 觸摸事件（移動端）
+                        canvas.addEventListener('touchend', (e) => {
+                            e.preventDefault();
+                            const state = wheelStates[id];
+                            if (!state.isSpinning) {
+                                spinWheel(id);
+                            }
+                        });
+                    }
+                });
+
+                console.log('🎰 命運輪盤已就緒！');
+                console.log('  - 轉盤一：15個角色');
+                console.log('  - 轉盤二：1~3（轉到2自動觸發轉盤六）');
+                console.log('  - 轉盤四：2500 / 4000 / 6000');
+                console.log('  - 轉盤五：換 / 不換');
+                console.log('  - 轉盤六：1~4');
+                console.log('💡 點擊轉盤本身或按鈕皆可旋轉！');
+            });
+
+            // 將spinWheel暴露到全域
+            window.spinWheel = spinWheel;
+            window.drawAllWheels = drawAllWheels;
+            window.getResult = getResult;
+
+            // 監聽視窗大小變化，重新繪製
+            let resizeTimeout;
+            window.addEventListener('resize', () => {
+                clearTimeout(resizeTimeout);
+                resizeTimeout = setTimeout(() => {
+                    drawAllWheels();
+                }, 300);
+            });
+
+            console.log('✅ 命運輪盤腳本初始化完成。');
+        })();
     </script>
 </body>
 </html>
