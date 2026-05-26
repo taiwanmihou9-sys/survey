@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>生活與個人核心價值觀綜合調查問卷</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f0f2f5;
+            color: #333;
+            padding: 20px 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .survey-container {
+            max-width: 640px;
+            width: 100%;
+            background: #ffffff;
+            border-top: 10px solid #673ab7; /* 模仿 Google 表單經典紫 */
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+            color: #202124;
+        }
+        .subtitle {
+            color: #5f6368;
+            font-size: 0.9rem;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #dadce0;
+            padding-bottom: 15px;
+        }
+        .question-box {
+            background: #fff;
+            border: 1px solid #dadce0;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+        }
+        .question-title {
+            font-size: 1.05rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+            color: #202124;
+        }
+        .question-title::after {
+            content: " *";
+            color: #d93025;
+        }
+        .options-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            font-size: 0.95rem;
+            color: #3c4043;
+        }
+        input[type="radio"] {
+            margin-right: 12px;
+            width: 20px;
+            height: 20px;
+            accent-color: #673ab7;
+            cursor: pointer;
+        }
+        .submit-btn {
+            background-color: #673ab7;
+            color: white;
+            padding: 10px 24px;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            cursor: pointer;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+            transition: background-color 0.2s;
+        }
+        .submit-btn:hover {
+            background-color: #512da8;
+        }
+        
+        /* 惡搞彈窗 */
+        .gay-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #000000;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            flex-direction: column;
+        }
+        .gay-text {
+            font-size: 8rem;
+            font-weight: 900;
+            color: #ff0055;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px #ff0055, 0 0 40px #ff0055;
+            animation: shake 0.1s infinite, rainbow 2s infinite linear;
+        }
+        .retry-btn {
+            margin-top: 40px;
+            padding: 10px 20px;
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* 震動與彩虹特效 */
+        @keyframes shake {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            10% { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(2px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(2px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        }
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="survey-container">
+        <h1>📋 調查問卷</h1>
+        <div class="subtitle">請根據您的真實情況填寫以下題目。</div>
+
+        <form id="surveyForm" onsubmit="triggerPrank(event)">
+            <!-- Q1 -->
+            <div class="question-box">
+                <div class="question-title">1. 請問你的性別？</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q1" value="男生" required> 男生</label>
+                    <label class="option-label"><input type="radio" name="q1" value="男娘"> 男娘</label>
+                    <label class="option-label"><input type="radio" name="q1" value="Gay"> Gay</label>
+                    <label class="option-label"><input type="radio" name="q1" value="女生"> 女生</label>
+                </div>
+            </div>
+
+            <!-- Q2 -->
+            <div class="question-box">
+                <div class="question-title">2. 你有另一半嗎？</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q2" value="有" required> 有</label>
+                    <label class="option-label"><input type="radio" name="q2" value="沒有"> 沒有</label>
+                </div>
+            </div>
+
+            <!-- Q3 -->
+            <div class="question-box">
+                <div class="question-title">3. 你家人知道你是gay嗎？</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q3" value="知道" required> 知道</label>
+                    <label class="option-label"><input type="radio" name="q3" value="不知道"> 不知道</label>
+                </div>
+            </div>
+
+            <!-- Q4 -->
+            <div class="question-box">
+                <div class="question-title">4. 你和gay同一個性別所以你是gay吧？</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q4" value="是" required> 是</label>
+                    <label class="option-label"><input type="radio" name="q4" value="我是gay我不知道"> 我是gay我不知道</label>
+                </div>
+            </div>
+
+            <!-- Q5 -->
+            <div class="question-box">
+                <div class="question-title">5. 請問你對第三次世界大戰的看法是什麼</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q5" value="我覺得非常棒，所以我是gay" required> 我覺得非常棒，所以我是gay</label>
+                    <label class="option-label"><input type="radio" name="q5" value="我覺得不太好，因為我是gay"> 我覺得不太好，因為我是gay</label>
+                    <label class="option-label"><input type="radio" name="q5" value="我不知道，因為我是gay"> 我不知道，因為我是gay</label>
+                </div>
+            </div>
+
+            <!-- Q6 -->
+            <div class="question-box">
+                <div class="question-title">6. 你對納粹有什麼看法</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q6" value="我喜歡他，因為我是M我喜歡被他虐待" required> 我喜歡他，因為我是M我喜歡被他虐待</label>
+                    <label class="option-label"><input type="radio" name="q6" value="不知道，因為我是gay"> 不知道，因為我是gay</label>
+                </div>
+            </div>
+
+            <!-- Q7 -->
+            <div class="question-box">
+                <div class="question-title">7. 你對男娘有什麼看法</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q7" value="我是男娘，我覺得非常棒" required> 我是男娘，我覺得非常棒</label>
+                    <label class="option-label"><input type="radio" name="q7" value="我覺得我非常棒，我是女生"> 我覺得我非常棒，我是女生</label>
+                    <label class="option-label"><input type="radio" name="q7" value="我是gay，我也覺得很好"> 我是gay，我也覺得很好</label>
+                    <label class="option-label"><input type="radio" name="q7" value="不知道，因為我是gay"> 不知道，因為我是gay</label>
+                </div>
+            </div>
+
+            <!-- Q8 -->
+            <div class="question-box">
+                <div class="question-title">8. 給你10萬你會做什麼</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q8" value="去泰國變性" required> 去泰國變性</label>
+                    <label class="option-label"><input type="radio" name="q8" value="開開心心的當gay"> 開開心心的當gay</label>
+                </div>
+            </div>
+
+            <!-- Q9 -->
+            <div class="question-box">
+                <div class="question-title">9. 請回答！</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q9" value="我是gay" required> 我是gay</label>
+                    <label class="option-label"><input type="radio" name="q9" value="我不想選因為我是男娘"> 我不想選因為我是男娘</label>
+                </div>
+            </div>
+
+            <!-- Q10 -->
+            <div class="question-box">
+                <div class="question-title">10. 你今天開心嗎？</div>
+                <div class="options-group">
+                    <label class="option-label"><input type="radio" name="q10" value="我很開心因為我是女的" required> 我很開心因為我是女的</label>
+                    <label class="option-label"><input type="radio" name="q10" value="我很開心因為我是男娘"> 我很開心因為我是男娘</label>
+                    <label class="option-label"><input type="radio" name="q10" value="我不開心因為我是gay"> 我不開心因為我是gay</label>
+                </div>
+            </div>
+
+            <button type="submit" class="submit-btn">提交</button>
+        </form>
+    </div>
+
+    <!-- 惡搞全螢幕畫面 -->
+    <div class="gay-overlay" id="gayOverlay">
+        <div class="gay-text">GAY !</div>
+        <button class="retry-btn" onclick="closePrank()">可惡，被整了</button>
+    </div>
+
+    <script>
+        function triggerPrank(event) {
+            event.preventDefault(); // 阻止表單真的送出重整
+
+            // 1. 顯示滿版全黑、彩色閃爍字體的 GAY
+            document.getElementById('gayOverlay').style.display = 'flex';
+
+            // 2. 觸發手機/電腦語音讀出 "GAY"
+            if ('speechSynthesis' in window) {
+                // 英文發音
+                const utterance = new SpeechSynthesisUtterance("GAY");
+                utterance.lang = "en-US";
+                utterance.pitch = 1.2; // 音調稍微高亢一點
+                utterance.rate = 1.0;  // 正常速度
+                
+                // 連續大喊三聲增加震撼感
+                window.speechSynthesis.speak(utterance);
+                window.speechSynthesis.speak(utterance);
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function closePrank() {
+            document.getElementById('gayOverlay').style.display = 'none';
+            document.getElementById('surveyForm').reset();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
